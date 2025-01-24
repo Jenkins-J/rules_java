@@ -111,6 +111,11 @@ java_runtime_files(
     srcs = ["include/openbsd/jni_md.h"],
 )
 
+config_setting(
+  name = "linux_ppc64le",
+  constraint_values = ["@platforms//os:linux", "@platforms//cpu:ppc64le"],
+)
+
 # The Java native interface. Depend on this package if you #include <jni.h>.
 #
 # See test_jni in third_party/bazel/src/test/shell/bazel/bazel_java_test.sh for
@@ -124,7 +129,7 @@ cc_library(
         "@bazel_tools//src/conditions:freebsd": [":jni_md_header-freebsd"],
         "@bazel_tools//src/conditions:linux_aarch64": [":jni_md_header-linux"],
         "@bazel_tools//src/conditions:linux_mips64": [":jni_md_header-linux"],
-        "@bazel_tools//src/conditions:linux_ppc64le": [":jni_md_header-linux"],
+        ":linux_ppc64le": [":jni_md_header-linux"],
         "@bazel_tools//src/conditions:linux_riscv64": [":jni_md_header-linux"],
         "@bazel_tools//src/conditions:linux_s390x": [":jni_md_header-linux"],
         "@bazel_tools//src/conditions:linux_x86_64": [":jni_md_header-linux"],
@@ -137,7 +142,7 @@ cc_library(
         "@bazel_tools//src/conditions:freebsd": ["include/freebsd"],
         "@bazel_tools//src/conditions:linux_aarch64": ["include/linux"],
         "@bazel_tools//src/conditions:linux_mips64": [":include/linux"],
-        "@bazel_tools//src/conditions:linux_ppc64le": ["include/linux"],
+        ":linux_ppc64le": ["include/linux"],
         "@bazel_tools//src/conditions:linux_riscv64": [":include/linux"],
         "@bazel_tools//src/conditions:linux_s390x": ["include/linux"],
         "@bazel_tools//src/conditions:linux_x86_64": ["include/linux"],
